@@ -11,24 +11,58 @@ prev = datetime.date(2021, 1, 18)
 print(prev)
 
 
-def findCredentials(request):
-    ap = argparse.ArgumentParser()
-    args = vars(ap.parse_args())
-    credit = {
-        "consumer_key": "dj0yJmk9b0JiZHhhMmROb2FOJmQ9WVdrOWVFZFVVR0pRWmxZbWNHbzlNQT09JnM9Y29uc3VtZXJzZWNyZXQmc3Y9MCZ4PTMz",
-        "consumer_secret": "3156308ff948c61ac5078f7f143c81555df75339",
-    }
-    with open("oauth2.json", "w") as f:
-        f.write(json.dumps(credit))
+def connectionManager():
+    def noToken():
+        # ap = argparse.ArgumentParser()
+        # args = vars(ap.parse_args())
+        credentials = {
+            "consumer_key": "dj0yJmk9b0JiZHhhMmROb2FOJmQ9WVdrOWVFZFVVR0pRWmxZbWNHbzlNQT09JnM9Y29uc3VtZXJzZWNyZXQmc3Y9MCZ4PTMz",
+            "consumer_secret": "3156308ff948c61ac5078f7f143c81555df75339",
+        }
+        with open("oauth2.json", "w") as f:
+            f.write(json.dumps(credentials))
+        return OAuth2(None, None, from_file="oauth2.json")
+
+    def checkValidOrRefreshToken():
+        return OAuth2(None, None, from_file="oauth2.json")
+
+    try:  ##Check if oauth2 file exists if it does open oauth with the file
+        fileExistCheck = open("oauth2.json")
+        return checkValidOrRefreshToken()
+    except IOError:  # if file does not exist run connection manager and create a token
+        return noToken()
 
 
-def default():
-    oauth = OAuth2(None, None, from_file="oauth2.json")
+# class leagueManager:
 
-    gm = yfa.Game(oauth, "nba")
-    validLeague = gm.league_ids(year=2020)
-    print(validLeague)
-    currentLeague = gm.to_league(validLeague[0])
+
+def cli():
+    def chooseLeague():
+        print("Choose from the following League IDs:")
+        for index, league in enumerate(validLeague):
+            print(f"Index: {index} League ID: {league}")
+        return input("Input the index you're selecting or type -1 to exit: ")
+
+    oauth = connectionManager()
+    sport = yfa.Game(oauth, "nba")
+    validLeague = sport.league_ids(year=2020)
+    print(list(enumerate(validLeague)))
+    possibleChoices = len(validLeague) - 1
+    while True:
+        returnLeague = chooseLeague()
+        try:
+            if returnLeague == "-1":
+                print("Exiting...")
+                exit()
+            elif int(returnLeague) > -1 and int(returnLeague) <= possibleChoices:
+                leagueIndex = int(returnLeague)
+                break
+            else:
+                print("-Error: Invalid Index!-")
+        except ValueError:
+            print("-Error: Invalid Input!-")
+    currentLeague = sport.to_league(validLeague[leagueIndex])
+
     print(currentLeague.stat_categories())
     currentTeam = currentLeague.team_key()
     currentWeek = currentLeague.current_week()
@@ -42,4 +76,5 @@ def default():
         print(item)
 
 
-default()
+if __name__ == "__main__":
+    cli()
