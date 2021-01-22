@@ -7,8 +7,8 @@ from yahoo_oauth import OAuth2
 
 # today = datetime.date.today()
 # print(today)
-prev = datetime.date(2021, 1, 18)
-print(prev)
+# prev = datetime.date(2021, 1, 18)
+# print(prev)
 
 
 def connectionManager():
@@ -33,36 +33,51 @@ def connectionManager():
         return noToken()
 
 
-# class leagueManager:
+class leagueManager:
+    def __init__(self, passedLeague):
+        self.currentLeague = passedLeague
+
+    def getCurrentWeek(self):
+        # currentLeague.
+        # nonlocal currentLeague
+        print(self.currentLeague.matchups())
+
+    #    pass
 
 
 def cli():
-    def chooseLeague():
-        print("Choose from the following League IDs:")
-        for index, league in enumerate(validLeague):
-            print(f"Index: {index} League ID: {league}")
-        return input("Input the index you're selecting or type -1 to exit: ")
-
+    # Setup up connection to yahoo and select NBA
     oauth = connectionManager()
     sport = yfa.Game(oauth, "nba")
-    validLeague = sport.league_ids(year=2020)
-    print(list(enumerate(validLeague)))
-    possibleChoices = len(validLeague) - 1
-    while True:
-        returnLeague = chooseLeague()
-        try:
-            if returnLeague == "-1":
-                print("Exiting...")
-                exit()
-            elif int(returnLeague) > -1 and int(returnLeague) <= possibleChoices:
-                leagueIndex = int(returnLeague)
-                break
-            else:
-                print("-Error: Invalid Index!-")
-        except ValueError:
-            print("-Error: Invalid Input!-")
-    currentLeague = sport.to_league(validLeague[leagueIndex])
 
+    def chooseLeague(possibleChoices):
+        print("Choose from the following League IDs:")
+        print("----------------------------------")
+        for index, league in enumerate(possibleLeagues):
+            print(f"Index: {index} League ID: {league}")
+        print("----------------------------------")
+        while True:
+            returnLeague = input("Input the index you're selecting or type -1 to exit: ")
+            try:
+                if returnLeague == "-1":
+                    print("Exiting...")
+                    exit()
+                elif int(returnLeague) > -1 and int(returnLeague) <= possibleChoices:
+                    return int(returnLeague)
+                    break
+                else:
+                    print("-Error: Invalid Index!-")
+            except ValueError:
+                print("-Error: Invalid Input!-")
+
+    possibleLeagues = sport.league_ids(year=2020)
+    leagueIndex = chooseLeague(len(possibleLeagues) - 1)
+    currentLeague = sport.to_league(possibleLeagues[leagueIndex])
+    temp = leagueManager(currentLeague)
+    # print(currentLeague.matchups())
+    for agent in currentLeague.free_agents("PF"):
+        print(agent)
+    return
     print(currentLeague.stat_categories())
     currentTeam = currentLeague.team_key()
     currentWeek = currentLeague.current_week()
