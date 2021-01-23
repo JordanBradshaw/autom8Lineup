@@ -65,6 +65,9 @@ class leagueManager:
 
 
 def cli():
+    def getLeagueName(passedLeagueValue):
+        return yfa.League(oauth, passedLeagueValue).settings()['name']
+
     # Setup up connection to yahoo and select NBA
     oauth = connectionManager()
     sport = yfa.Game(oauth, 'nba')
@@ -73,7 +76,10 @@ def cli():
         print('Choose from the following League IDs:')
         print('----------------------------------')
         for index, league in enumerate(possibleLeagues):
-            print(f'Index: {index} League ID: {league}')
+            leagueName = getLeagueName(league)
+            print(
+                f'Index: {index} League Name: {leagueName} League ID: {league}'
+            )
         print('----------------------------------')
         while True:
             returnLeague = input(
