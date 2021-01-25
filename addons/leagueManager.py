@@ -26,10 +26,14 @@ class leagueManager:
             self.currentLeague.team_key())
         currentRoster = teamVariable.roster(currentWeek, currentDay)
         return currentRoster
-        print('------------- CURRENT ROSTER -------------')
-        print(currentRoster)
-        #for item in currentRoster:
-        #    print(item)
+
+    def getWeeksMatchup(self):
+        currentMatchup = self.currentLeague.matchups()
+        #currentDay = datetime.date(2021, 1, 22)
+        #teamVariable = self.currentLeague.to_team(
+        #    self.currentLeague.team_key())
+        #currentMatchup = teamVariable.roster(currentWeek, currentDay)
+        return currentMatchup
 
     def getTopFreeAgents(self):
         # currentLeague.
