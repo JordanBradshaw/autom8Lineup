@@ -18,23 +18,25 @@ def printMenu(stdscr, selectedColumnIndex):
             stdscr.attroff(curses.color_pair(1))
         else:
             stdscr.addstr(1, x, word)
+    stdscr.refresh()
 
 
 def printRoster(stdscr):
     h, w = stdscr.getmaxyx()
     todaysRoster = globalLeague.getTodaysRoster()
     print(todaysRoster)
-    for item in enumerate(todaysRoster):
-        print(item)
-        #x = ((w // (len(menu) + 1)) * (index + 1)) - (len(word) // 2)
-
-        #stdscr.addstr(1, x, word)
+    for index, player in enumerate(todaysRoster):
+        playerName = player['name']
+        x = ((w // (len(menu) + 1))) - (len(player['name']) // 2)
+        stdscr.addstr(3 + index, x, playerName)
+    stdscr.refresh()
 
 
 def commandLineInterface(stdscr):
     curses.curs_set(0)
     curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_WHITE)
     selectedColumnIndex = 0
+    activeMenu(stdscr, selectedColumnIndex)
     printMenu(stdscr, selectedColumnIndex)
     time.sleep(1)
     while 1:
