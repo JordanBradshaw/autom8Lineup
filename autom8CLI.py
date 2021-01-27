@@ -1,6 +1,9 @@
 import curses
 import time
 from typing import List
+import requests
+import json
+import pandas as pd
 
 import yahoo_fantasy_api as yfa
 
@@ -118,15 +121,26 @@ def getLeague():
     currentLeague = sport.to_league(possibleLeagues[leagueIndex])
     roster = leagueManager.leagueManager(currentLeague).getTodaysRoster()
     matchups = leagueManager.leagueManager(currentLeague).getWeeksMatchup()
-    #print(roster)
-    #print(matchups)
-    for index, item in enumerate(
-            matchups['fantasy_content']['league'][1]['scoreboard']['0']
-        ['matchups']['0']['matchup']['status']):
-        print(index, item)
-        print(' ')
+    player_id = leagueManager.leagueManager(currentLeague).getPlayerIds()
+    x = leagueManager.leagueManager(currentLeague).getPlayerStats(player_id)
+    # for playerId in roster:
+    #     for key in playerId:
+    #         print("{}: {}".format(key, playerId[key]))
+    for v, k in x.items():
+        print(v,k)
 
-    #exit()
+    #print(x)
+    #print(roster)
+    # for item in stats:
+    #     print(stats)
+    exit()
+    # for item in roster(
+    #         matchups['fantasy_content']['league'][1]['scoreboard']['0']
+    #     ['matchups']['0']['matchup']['status']):
+    #     print(item)
+    #     print(' ')
+
+    # exit()
     return leagueManager.leagueManager(currentLeague)
     # print(currentLeague.matchups())
     temp.getTodaysRoster()
