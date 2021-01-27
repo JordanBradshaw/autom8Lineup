@@ -1,13 +1,13 @@
 import curses
+import json
 import time
 from typing import List
-import requests
-import json
-import pandas as pd
 
+import pandas as pd
+import requests
 import yahoo_fantasy_api as yfa
 
-from addons import connectionManager, leagueManager
+from modules import connectionManager, leagueManager
 
 menu = ["Roster", "Matchup", "Players", "League"]
 
@@ -149,7 +149,6 @@ def getLeague():
     currentLeague = sport.to_league(possibleLeagues[leagueIndex])
     roster = leagueManager.leagueManager(currentLeague).getTodaysRoster()
     matchups = leagueManager.leagueManager(currentLeague).getWeeksMatchup()
-<<<<<<< HEAD
     player_id = leagueManager.leagueManager(currentLeague).getPlayerIds()
     x = leagueManager.leagueManager(currentLeague).getPlayerStats(player_id)
     # for playerId in roster:
@@ -169,7 +168,6 @@ def getLeague():
     #     print(item)
     #     print(' ')
 
-=======
     # print(roster)
     # print(matchups)
     for index, item in enumerate(
@@ -181,7 +179,6 @@ def getLeague():
     # for item, key in pgs.items():
     #    print(key)
     # print(pgs)
->>>>>>> dbe43c8510c7e653ce997ced611cee852c6fd99b
     # exit()
     return leagueManager.leagueManager(currentLeague)
     # print(currentLeague.matchups())

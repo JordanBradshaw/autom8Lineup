@@ -1,7 +1,8 @@
 import argparse
 import datetime
-import pandas as pd 
 from typing import List
+
+import pandas as pd
 
 # from inquirer Successfully installed Pygments-2.7.4 prompt-toolkit-1.0.14 pyinquirer-1.0.3 regex-2020.11.13 six-1.15.0 wcwidth-0.2.5
 
@@ -70,5 +71,3 @@ class leagueManager:
     def getCategories(self):
         for item in self.currentLeague.stat_categories():
             print(item)
-    
-
