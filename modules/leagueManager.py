@@ -12,13 +12,9 @@ import pandas as pd
 # print(prev)
 
 
-
-
 class leagueManager:
-    
     def __init__(self, passedLeague):
         self.currentLeague = passedLeague
-
 
     def getLeagueSettings(self):
         print(self.currentLeague.settings())
@@ -29,22 +25,20 @@ class leagueManager:
     def getTodaysRoster(self):
         currentWeek = self.currentLeague.current_week()
         currentDay = datetime.date(2021, 1, 22)
-        teamVariable = self.currentLeague.to_team(
-            self.currentLeague.team_key())
+        teamVariable = self.currentLeague.to_team(self.currentLeague.team_key())
         currentRoster = teamVariable.roster(currentWeek, currentDay)
         df_roster = pd.DataFrame(currentRoster)
         return df_roster
-    
+
     def getPlayerIds(self):
         currentWeek = self.currentLeague.current_week()
         currentDay = datetime.date(2021, 1, 22)
-        teamVariable = self.currentLeague.to_team(
-            self.currentLeague.team_key())
+        teamVariable = self.currentLeague.to_team(self.currentLeague.team_key())
         currentRoster = teamVariable.roster(currentWeek, currentDay)
         df_roster = pd.DataFrame(currentRoster)
-        return df_roster['player_id']
+        return df_roster["player_id"]
 
-    def getPlayerStats(self, players:List[str], range='season' ): #currentweek
+    def getPlayerStats(self, players: List[str], range="season"):  # currentweek
         returnPlayerDict = {}
         for player in players:
             returnPlayerDict[player] = self.currentLeague.player_stats(player, range)
@@ -52,18 +46,21 @@ class leagueManager:
 
     def getWeeksMatchup(self):
         currentMatchup = self.currentLeague.matchups()
-        #currentDay = datetime.date(2021, 1, 22)
+        # currentDay = datetime.date(2021, 1, 22)
         # teamVariable = self.currentLeague.to_team(
         #    self.currentLeague.team_key())
-        #currentMatchup = teamVariable.roster(currentWeek, currentDay)
+        # currentMatchup = teamVariable.roster(currentWeek, currentDay)
         return currentMatchup
 
     def getTopFreeAgents(self):
         returnDict = {}
-        positions = ['PG', 'SG', 'SF', 'PF', 'C']
+        positions = ["PG", "SG", "SF", "PF", "C"]
         for item in positions:
-            returnDict[item] = sorted(self.currentLeague.free_agents(
-                item), key=lambda i: i['percent_owned'], reverse=True)[:5]
+            returnDict[item] = sorted(
+                self.currentLeague.free_agents(item),
+                key=lambda i: i["percent_owned"],
+                reverse=True,
+            )[:5]
         # currentLeague.
         # nonlocal currentLeague
         return returnDict

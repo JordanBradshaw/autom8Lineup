@@ -37,7 +37,10 @@ def printRoster(stdscr, h, w):
         formatRoster(stdscr, player, index, w)
 
     stdscr.refresh()
-#Hello
+
+
+# Hello
+
 
 def printMatchup(stdscr, h, w):
     def formatMatchup(stdscr, player, h, w):
@@ -131,7 +134,9 @@ def getLeague():
             print(f"Index: {index} League Name: {leagueName} League ID: {league}")
         print("----------------------------------")
         while True:
-            returnLeague = input("Input the index you're selecting or type -1 to exit: ")
+            returnLeague = input(
+                "Input the index you're selecting or type -1 to exit: "
+            )
             try:
                 if returnLeague == "-1":
                     print("Exiting...")
@@ -155,10 +160,10 @@ def getLeague():
     #     for key in playerId:
     #         print("{}: {}".format(key, playerId[key]))
     for v, k in x.items():
-        print(v,k)
+        print(v, k)
 
-    #print(x)
-    #print(roster)
+    # print(x)
+    # print(roster)
     # for item in stats:
     #     print(stats)
     exit()
@@ -171,7 +176,9 @@ def getLeague():
     # print(roster)
     # print(matchups)
     for index, item in enumerate(
-        matchups["fantasy_content"]["league"][1]["scoreboard"]["0"]["matchups"]["0"]["matchup"]["status"]
+        matchups["fantasy_content"]["league"][1]["scoreboard"]["0"]["matchups"]["0"][
+            "matchup"
+        ]["status"]
     ):
         print(index, item)
         print(" ")

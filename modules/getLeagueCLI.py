@@ -19,7 +19,9 @@ def getLeague():
             print(f"Index: {index} League Name: {leagueName} League ID: {league}")
         print("----------------------------------")
         while True:
-            returnLeague = input("Input the index you're selecting or type -1 to exit: ")
+            returnLeague = input(
+                "Input the index you're selecting or type -1 to exit: "
+            )
             try:
                 if returnLeague == "-1":
                     print("Exiting...")
